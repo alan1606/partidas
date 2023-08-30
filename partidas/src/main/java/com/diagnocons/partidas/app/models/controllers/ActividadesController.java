@@ -17,7 +17,7 @@ import com.diagnocons.partidas.app.models.entity.Actividad;
 public class ActividadesController {
 	
 	@GetMapping("/portafolio/{portafolioId}")
-	public ResponseEntity<List<Actividad>> buscarPorPortafolio(@PathVariable Long portafolioId){
+	public ResponseEntity<List<Actividad>> buscarPorProyecto(@PathVariable Long portafolioId){
 		return null;
 	}
 	
