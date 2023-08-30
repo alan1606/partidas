@@ -12,7 +12,7 @@ create table portafolios(
 
 create table socios(
 	id bigint unsigned not null auto_increment,
-    nombre varchar(150) not null,
+    nombre varchar(200) not null,
     constraint pk_id primary key(id)
 );
 
