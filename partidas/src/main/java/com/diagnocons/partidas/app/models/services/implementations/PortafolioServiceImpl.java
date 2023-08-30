@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.diagnocons.partidas.app.models.entity.Portafolio;
 import com.diagnocons.partidas.app.models.entity.Proyecto;
 import com.diagnocons.partidas.app.models.repository.PortafolioRepository;
@@ -30,11 +32,13 @@ public class PortafolioServiceImpl implements PortafolioService{
 	
 
 	@Override
+	@Transactional
 	public Portafolio crearPortafolio(Portafolio portafolio) {
 		return portafolioRepository.save(portafolio);
 	}
 
 	@Override
+	@Transactional
 	public void eliminarPortafolio(Long id) throws Exception {
 		List<Proyecto> proyectos = proyectoRepository.encontrarPorPortafolio(id);
 		if(proyectos.size() > 0) {
@@ -44,6 +48,7 @@ public class PortafolioServiceImpl implements PortafolioService{
 	}
 
 	@Override
+	@Transactional
 	public Portafolio modificarPortafolio(Long id, Portafolio nuevo) {
 		Optional<Portafolio> o = portafolioRepository.findById(id);
 		if(o.isEmpty()) {
@@ -56,12 +61,14 @@ public class PortafolioServiceImpl implements PortafolioService{
 
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<Portafolio> buscarTodoPaginable(Pageable pageable) {
 		return portafolioRepository.findAll(pageable);
 	}
 
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Portafolio> buscarPortafoliosLikeNombre(String nombre) {
 		return portafolioRepository.buscarPorNombre(nombre);
 	}
