@@ -38,6 +38,4 @@ public class Socio {
 		this.nombre = nombre;
 	}
 	
-	
-	
 }

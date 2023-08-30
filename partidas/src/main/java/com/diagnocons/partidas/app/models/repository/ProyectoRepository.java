@@ -11,4 +11,5 @@ public interface ProyectoRepository extends JpaRepository<Proyecto, Long>{
 
 	@Query("select p from Proyecto p where p.portafolio.id = ?1")
 	List<Proyecto> encontrarPorPortafolio(Long portafolioId);
+
 }

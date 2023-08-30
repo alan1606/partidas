@@ -36,6 +36,13 @@ public class ActividadMaterial {
 	@NotNull
 	private Boolean cotizar;
 
+	public ActividadMaterial() {}
+	
+	public ActividadMaterial(Actividad actividad, Material material) {
+		this.actividad = actividad;
+		this.material = material;
+	}
+
 	public Long getId() {
 		return id;
 	}

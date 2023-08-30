@@ -24,6 +24,13 @@ public class ActividadSocio {
 	@JoinColumn(name = "socio_id")
 	private Socio socio;
 
+	public ActividadSocio() {}
+	
+	public ActividadSocio(Actividad actividad, Socio socio) {
+		this.actividad = actividad;
+		this.socio = socio;
+	}
+
 	public Long getId() {
 		return id;
 	}
