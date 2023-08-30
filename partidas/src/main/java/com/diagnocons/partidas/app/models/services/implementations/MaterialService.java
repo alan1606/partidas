@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.diagnocons.partidas.app.models.entity.Material;
 
-public interface MaterialesService {
+public interface MaterialService {
 	
 	public Material crearMaterial(Material material);
 	
