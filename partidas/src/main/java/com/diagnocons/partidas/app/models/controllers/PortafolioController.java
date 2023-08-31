@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,15 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diagnocons.partidas.app.models.entity.Portafolio;
 import com.diagnocons.partidas.app.models.services.interfaces.PortafolioService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("portafolios")
 public class PortafolioController {
 
 	private PortafolioService portafolioService;
+	private Validador validador;
 	
-	
-	public PortafolioController(PortafolioService portafolioService) {
+	public PortafolioController(
+			PortafolioService portafolioService,
+			Validador validador
+			) {
 		this.portafolioService = portafolioService;
+		this.validador = validador;
 	}
 
 	@GetMapping
@@ -44,7 +51,10 @@ public class PortafolioController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Portafolio> crearPortafolio(@RequestBody Portafolio portafolio){
+	public ResponseEntity<?> crearPortafolio(@Valid @RequestBody Portafolio portafolio, BindingResult result){
+		if(result.hasErrors()) {
+			return validador.validar(result);
+		}
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.body(
@@ -65,7 +75,11 @@ public class PortafolioController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Portafolio> modificarPortafolio(@PathVariable Long id, @RequestBody Portafolio nuevo){
+	public ResponseEntity<?> modificarPortafolio(@PathVariable Long id, @Valid @RequestBody Portafolio nuevo, BindingResult result){
+		if(result.hasErrors()) {
+			return validador.validar(result);
+		}
+		
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.body(portafolioService.modificarPortafolio(id, nuevo));
