@@ -1,11 +1,12 @@
 package com.diagnocons.partidas.app.models.services.implementations;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.diagnocons.partidas.app.models.entity.Actividad;
 import com.diagnocons.partidas.app.models.entity.Material;
 import com.diagnocons.partidas.app.models.entity.Portafolio;
 import com.diagnocons.partidas.app.models.entity.Proyecto;
@@ -55,19 +56,32 @@ public class ReporteServiceImpl implements ReporteService{
 		List<Proyecto> proyectos = proyectoRepository.encontrarPorPortafolio(portafolioId);
 		
 		for(int i=0; i<proyectos.size(); i++) {
-			proyectos.get(i).setActividades(
-				actividadRepository.buscarPorProyecto(proyectos.get(0).getId())
-			); 
+			Proyecto proyecto = proyectos.get(i);
 			
-			for(int j=0; j<proyectos.get(i).getActividades().size(); j++) {
+			List<Actividad> actividades =
+					actividadRepository.buscarPorProyecto(proyecto.getId());
+			
+			
+			for(int j=0; j<actividades.size(); j++) {
+				Actividad actividad = actividades.get(j);
+				List<Material> materiales = actividadMaterialRepository
+						.encontrarPorActividadId(actividad.getId())
+						.stream()
+						.map(am -> am.getMaterial())
+						.collect(Collectors.toList());
 				
-				List<Material> materiales = null;
-				List<Socio> socios = null;
+				List<Socio> socios = actividadSocioRepository
+						.encontrarPorActividadId(actividad.getId())
+						.stream()
+						.map(as -> as.getSocio())
+						.collect(Collectors.toList());
 				
-				proyectos.get(i).getActividades().get(j).setMateriales(materiales);
-				proyectos.get(i).getActividades().get(j).setSocios(socios);
+				actividad.setMateriales(materiales);
+				actividad.setSocios(socios);
 			}
 			
+			proyecto.setActividades(actividades); 
+
 		}
 		
 		portafolio.setProyectos(proyectos);
