@@ -1,11 +1,15 @@
 package com.diagnocons.partidas.app.models.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,6 +26,13 @@ public class Portafolio {
 	@NotNull
 	private String nombre;
 
+	@Transient
+	private List<Proyecto> proyectos;
+	
+	public Portafolio() {
+		this.proyectos = new ArrayList<Proyecto>();
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -37,6 +48,15 @@ public class Portafolio {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public List<Proyecto> getProyectos() {
+		return proyectos;
+	}
+
+	public void setProyectos(List<Proyecto> proyectos) {
+		this.proyectos = proyectos;
+	}
+	
 	
 	
 }

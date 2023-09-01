@@ -1,0 +1,51 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+spring:
+  application:
+    name: microservicio-gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: 
+              - '172.17.207.162:5173'
+              - 'http://172.17.207.162:5173'
+              - '172.17.207.162'
+              - 'http://172.17.207.162'
+            allowedHeaders: 
+              - Content-Type
+              - '*'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+ 
+      routes:
+      - filters: StripPrefix=2
+        id: partidas
+        predicates: Path=/api/partidas/**
+        uri: lb://partidas
+      - filters: 
+          - RewritePath=/v3/api-docs/(?<path>.*), /api/$\{path}/v3/api-docs
+        id: openapi
+        predicates: Path=/v3/api-docs/**
+        uri: http://localhost:${server.port}
+        
+server:
+  port: 8090
+#  http.port: 8080
+ # ssl:
+  #  key-store: src/main/resources/ssl/springboot_letsencrypt.p12 
+  #  key-store-password: password99
+  #  keyStoreType: PKCS12
+   # keyAlias: bootalias
+    
+springdoc:
+  swagger-ui:
+    operationsSorter: method
+
+
