@@ -61,7 +61,7 @@ public class ReporteServiceImpl implements ReporteService{
 			
 			for(int j=0; j<proyectos.get(i).getActividades().size(); j++) {
 				
-				List<Material> materiales = actividadMaterialRepository.;
+				List<Material> materiales = null;
 				List<Socio> socios = null;
 				
 				proyectos.get(i).getActividades().get(j).setMateriales(materiales);
